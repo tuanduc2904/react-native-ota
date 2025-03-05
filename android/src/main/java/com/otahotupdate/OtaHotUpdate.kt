@@ -47,30 +47,29 @@ class OtaHotUpdate(context: Context?) : TurboReactPackage() {
   companion object {
     @Suppress("DEPRECATION")
     fun Context.getPackageInfo(): PackageInfo {
-      return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
-      } else {
-        packageManager.getPackageInfo(packageName, 0)
-      }
+        return packageManager.getPackageInfo(packageName, 0)
     }
+
     private var mContext: Context? = null
+
+    @JvmStatic
     val bundleJS: String
-      get() {
-        if (mContext == null) {
-          return DEFAULT_BUNDLE
+        get() {
+            if (mContext == null) {
+                return DEFAULT_BUNDLE
+            }
+            val sharedPrefs = SharedPrefs(mContext!!)
+            val pathBundle = sharedPrefs.getString(PATH)
+            val version = sharedPrefs.getString(VERSION)
+            val currentVersionName = sharedPrefs.getString(CURRENT_VERSION_NAME)
+            if (pathBundle == "" || (currentVersionName != mContext?.getPackageInfo()?.versionName)) {
+                if (version != "") {
+                    // reset version number because bundle is wrong version, need download from new version
+                    sharedPrefs.putString(VERSION, "")
+                }
+                return DEFAULT_BUNDLE
+            }
+            return pathBundle!!
         }
-        val sharedPrefs = SharedPrefs(mContext!!)
-        val pathBundle = sharedPrefs.getString(PATH)
-        val version = sharedPrefs.getString(VERSION)
-        val currentVersionName = sharedPrefs.getString(CURRENT_VERSION_NAME)
-        if (pathBundle == "" || (currentVersionName != mContext?.getPackageInfo()?.versionName)) {
-          if (version != "") {
-            // reset version number because bundle is wrong version, need download from new version
-            sharedPrefs.putString(VERSION, "")
-          }
-          return DEFAULT_BUNDLE
-        }
-        return pathBundle!!
-      }
-  }
+}
 }
