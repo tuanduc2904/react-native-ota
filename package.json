@@ -1,6 +1,6 @@
 {
   "name": "react-native-update-ota",
-  "version": "3.0.3",
+  "version": "2.0.1",
   "description": "Hot update for react native",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
@@ -42,7 +42,6 @@
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
-    "prepare": "bob build",
     "release": "release-it"
   },
   "keywords": [
@@ -91,7 +90,9 @@
     "react": "18.3.1",
     "react-native": "0.76.3",
     "react-native-builder-bob": "^0.33.1",
+    "react-native-fs": "2.20.0",
     "release-it": "^17.10.0",
+    "rn-blob-util": "1.0.0",
     "turbo": "^1.10.7",
     "typescript": "^5.2.2"
   },

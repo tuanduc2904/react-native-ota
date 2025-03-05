@@ -8,8 +8,7 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:7.2.1"
-    // noinspection DifferentKotlinGradleVersion
+    classpath "com.android.tools.build:gradle:3.5.3"
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
 }
@@ -48,27 +47,18 @@ def supportsNamespace() {
 }
 
 android {
-  if (supportsNamespace()) {
-    namespace "com.otahotupdate"
-
-    sourceSets {
-      main {
-        manifest.srcFile "src/main/AndroidManifestNew.xml"
-      }
+  sourceSets {
+    main {
+      manifest.srcFile "src/main/AndroidManifest.xml"
     }
   }
-
-  compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
+  compileSdkVersion 30
 
   defaultConfig {
     minSdkVersion getExtOrIntegerDefault("minSdkVersion")
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
     buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
-  }
-
-  buildFeatures {
-    buildConfig true
   }
 
   buildTypes {
@@ -113,9 +103,10 @@ dependencies {
   // For < 0.71, this will be from the local maven repo
   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
   //noinspection GradleDynamicVersion
-  implementation "com.facebook.react:react-native:+"
+  implementation "com.facebook.react:react-native:0.63.4"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation 'com.jakewharton:process-phoenix:3.0.0'
+  
 }
 
 if (isNewArchitectureEnabled()) {
