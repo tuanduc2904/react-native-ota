@@ -39,7 +39,7 @@ const downloadBundleFile = async (
     })
     .progress((received, total) => {
       if (callback) {
-        callback(received, total);
+        callback(received + '', total + '');
       }
     });
   return res.path();
